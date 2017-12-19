@@ -6,16 +6,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
+var Hero = (function () {
+    function Hero() {
+    }
+    return Hero;
+}());
+exports.Hero = Hero;
 var AppComponent = (function () {
     function AppComponent() {
-        this.name = 'Angular';
+        this.title = 'Tour of Heroes';
+        this.hero = {
+            id: 1,
+            name: 'Windstorm'
+        };
     }
     return AppComponent;
 }());
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "<h1>Hello {{name}}</h1>",
+        template: "\n    <h1>{{title}}</h1>\n    <h2>{{hero.name}} details!</h2>\n    <div><label>id: </label>{{hero.id}}</div>\n    <div>\n      <label>name: </label>\n      <!-- [(ngModel)]\u662F\u4E00\u4E2AAngular\u8BED\u6CD5\uFF0C\u7528\u4E0E\u628Ahero.name\u7ED1\u5B9A\u5230\u8F93\u5165\u6846\u4E2D\u3002 -->\n      <!-- \u5B83\u7684\u6570\u636E\u6D41\u662F\u53CC\u5411\u7684\uFF1A\u4ECE\u5C5E\u6027\u5230\u8F93\u5165\u6846\uFF0C\u5E76\u4E14\u4ECE\u8F93\u5165\u6846\u56DE\u5230\u5C5E\u6027\u3002 -->\n      <input [(ngModel)]=\"hero.name\" placeholder=\"name\">\n    </div>\n    "
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
