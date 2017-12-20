@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-
-export class Hero {
-  id: number;
-  name: string;
-}
+import { Hero } from './hero';
 
 const HEROES: Hero[] = [
   { id: 11, name: 'Mr. Nice' },
@@ -24,20 +20,25 @@ const HEROES: Hero[] = [
     <h1>{{title}}</h1>
     <h2>My Heroes</h2>
     <ul class="heroes">
+      <!-- 引号中赋值给ngFor的那段文本表示“从heroes数组中取出每个英雄，-->
+      <!-- 存入一个局部的hero变量，并让它在相应的模板实例中可用” -->
+
+      <!-- 当表达式(hero === selectedHero)为true时，Angular会添加一个CSS类selected。-->
+      <!-- 为false时则会移除selected类。-->
+      
+      <!-- 圆括号标识<li>元素上的click事件是绑定的目标。 -->
+      <!-- 等号右边的onSelect(hero)表达式调用AppComponent的onSelect()方法，并把模板输入变量hero作为参数传进去。 -->
+      <!-- 它是我们前面在ngFor指令中定义的那个hero变量。-->
+
       <li *ngFor="let hero of heroes"
         [class.selected]="hero === selectedHero"
         (click)="onSelect(hero)">
         <span class="badge">{{hero.id}}</span> {{hero.name}}
       </li>
     </ul>
-    <div *ngIf="selectedHero">
-      <h2>{{selectedHero.name}} details!</h2>
-      <div><label>id: </label>{{selectedHero.id}}</div>
-      <div>
-        <label>name: </label>
-        <input [(ngModel)]="selectedHero.name" placeholder="name"/>
-      </div>
-    </div>
+
+    <！-- 在等号的左边，是方括号围绕的hero属性，这表示它是属性绑定表达式的目标。-->
+    <hero-detail [hero]="selectedHero"></hero-detail>
   `,
   styles: [`
     .selected {
@@ -92,8 +93,11 @@ const HEROES: Hero[] = [
 export class AppComponent {
   title = 'Tour of Heroes';
   heroes = HEROES;
+  //我们不再需要AppComponent的hero属性，因为不需要再显示单个的英雄，我们只需要显示英雄列表。
+  //但是用户可以点选一个英雄。 所以我们要把hero属性替换成selectedHero属性。
   selectedHero: Hero;
 
+  //添加一个onSelect方法，用于将用户点击的英雄赋给selectedHero属性。
   onSelect(hero: Hero): void {
     this.selectedHero = hero;
   }
