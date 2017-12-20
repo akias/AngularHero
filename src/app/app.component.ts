@@ -24,6 +24,8 @@ const HEROES: Hero[] = [
     <h1>{{title}}</h1>
     <h2>My Heroes</h2>
     <ul class="heroes">
+      <!-- 当表达式(hero === selectedHero)为true时，Angular会添加一个CSS类selected。-->
+      <!-- 为false时则会移除selected类。-->
       <li *ngFor="let hero of heroes"
         [class.selected]="hero === selectedHero"
         (click)="onSelect(hero)">
