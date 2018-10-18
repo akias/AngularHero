@@ -1,18 +1,11 @@
 import { Component } from '@angular/core';
 import { Hero } from './hero';
 
-const HEROES: Hero[] = [
-  { id: 11, name: 'Mr. Nice' },
-  { id: 12, name: 'Narco' },
-  { id: 13, name: 'Bombasto' },
-  { id: 14, name: 'Celeritas' },
-  { id: 15, name: 'Magneta' },
-  { id: 16, name: 'RubberMan' },
-  { id: 17, name: 'Dynama' },
-  { id: 18, name: 'Dr IQ' },
-  { id: 19, name: 'Magma' },
-  { id: 20, name: 'Tornado' }
-];
+//我们可以在多个组件中使用 HeroService 服务了，先从 AppComponent 开始。
+//先导入HeroService，以便我们可以在代码中引用它。
+
+import { HeroService} from './hero.service';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'my-app',
@@ -37,7 +30,7 @@ const HEROES: Hero[] = [
       </li>
     </ul>
 
-    <！-- 在等号的左边，是方括号围绕的hero属性，这表示它是属性绑定表达式的目标。-->
+    <!-- 在等号的左边，是方括号围绕的hero属性，这表示它是属性绑定表达式的目标。-->
     <hero-detail [hero]="selectedHero"></hero-detail>
   `,
   styles: [`
@@ -88,14 +81,30 @@ const HEROES: Hero[] = [
       margin-right: .8em;
       border-radius: 4px 0 0 4px;
     }
-  `]
+  `],
+
+  //providers数组告诉 Angular，当它创建新的AppComponent组件时，也要创建一个HeroService的新实例。 
+  //AppComponent会使用那个服务来获取英雄列表，在它组件树中的每一个子组件也同样如此。
+
+  providers: [HeroService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'Tour of Heroes';
-  heroes = HEROES;
+  //添加一个尚未初始化的heroes属性
+  heroes: Hero[];
   //我们不再需要AppComponent的hero属性，因为不需要再显示单个的英雄，我们只需要显示英雄列表。
   //但是用户可以点选一个英雄。 所以我们要把hero属性替换成selectedHero属性。
   selectedHero: Hero;
+
+  constructor(private heroService: HeroService) { }
+
+  ngOnInit():void {
+    this.getHeroes();
+  }
+  
+  getHeroes(): void {
+    this.heroes = this.heroService.getHeroes();
+  }
 
   //添加一个onSelect方法，用于将用户点击的英雄赋给selectedHero属性。
   onSelect(hero: Hero): void {
